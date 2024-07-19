@@ -75,19 +75,23 @@ class SeparatedDataset():
         '''
 
         train_loader_arr = []
+        test_loader_arr = []
         
         for i in range(self.num_tasks):
             # get train and test splits
             train_loader_arr.append(self.getGraphDataLoader(data, train_task_masks_arr[i], batch_size, neighbors_arr))
-
+            test_loader_arr.append(self.getGraphDataLoader(data, test_task_masks_arr[i], batch_size, neighbors_arr))   
+        
+        '''
         # combine the task_masks first
         final_test_mask = np.zeros_like(self.train_mask)
         for i in range(len(test_task_masks_arr)):
             final_test_mask |= test_task_masks_arr[i]
+        '''
         
-        test_loader = self.getGraphDataLoader(data, final_test_mask, batch_size, neighbors_arr)
+        # test_loader = self.getGraphDataLoader(data, final_test_mask, batch_size, neighbors_arr)
             
-        return train_loader_arr, test_loader
+        return train_loader_arr, test_loader_arr
         
     def getGraphDataLoader(self, data_train, task_masks, batch_size, neighbors_arr):
         '''
@@ -103,4 +107,3 @@ class SeparatedDataset():
             shuffle=True
         )
         return loader
-        
