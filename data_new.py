@@ -1,3 +1,4 @@
+import random
 import numpy as np
 from torch_geometric.loader import NeighborLoader
 from sklearn.model_selection import train_test_split
@@ -6,7 +7,7 @@ class SeparatedDataset():
 
     # separating data from initialize so that it can work for any dataset in the file
     def __init__(self, train_mask, num_task):
-        super(SeparatedDataset, self).__init__()
+        super().__init__()
         self.num_tasks = num_task
         self.train_mask = train_mask
         self.task_masks = []   # initialize empty task_masks
@@ -68,6 +69,16 @@ class SeparatedDataset():
             test_task_masks_arr.append(new_test_mask)
         
         return train_task_masks_arr, test_task_masks_arr
+
+    def get_sample(self, train_task_masks_arr, sample_size):
+        # this might take too much time so need to calculate only once
+        # randomly take out sample_size instances from data_train
+        # getting indices
+        train_indices = np.where(train_task_masks_arr)[0]
+        # randonly selecting indices 
+        sample_idx = random.sample(list(train_indices), sample_size)
+        # remaking mask 
+        return sample_idx
         
     def preparingLoaders(self, data, batch_size, neighbors_arr, train_task_masks_arr, test_task_masks_arr):
         '''
@@ -107,3 +118,4 @@ class SeparatedDataset():
             shuffle=True
         )
         return loader
+        
