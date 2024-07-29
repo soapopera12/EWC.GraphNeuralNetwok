@@ -24,6 +24,4 @@ new function for split type
 
 Elastic Weight Consolidation (EWC): Nuts and Bolts[https://arxiv.org/abs/2105.04093]
 
-https://github.com/moskomule/ewc.pytorch.git
-
 PS – I am a beginner and the code is quite messy but i will fix it soon
